@@ -1,0 +1,268 @@
+name: Tutorial-Network-Config
+version: v1
+
+# 配置client归属机构
+client:
+  organization: BelinkOrg
+
+# 配置channel中的所有机构mspid和peer列表
+organizations:
+  BelinkOrg:
+    mspid: BelinkMSP
+    peers:
+      - peer0
+      - peer1
+  XinWangOrg:
+    mspid: XinWangMSP
+    peers:
+      - peer2
+      - peer3
+
+# 配置channel组成信息，包含order和peer
+channels:
+  mychannel:
+    orderers:
+      - orderer
+      - orderer1
+
+    peers:
+      peer0:
+        endorsingPeer: true   # 设置是否参与背书，背书peer需要安装chaincode
+        chaincodeQuery: true  # 设置是否提供查询功能，需要peer安装chaincode
+        ledgerQuery: true      # 设置是否支持ledger信息查询
+        eventSource: true      # 设置交易事件源，为client提供event监听服务，该peer所属的机构必须与client相同
+      peer1:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer2:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: false
+      peer3:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: false
+
+#配置order详细信息和tlsca
+orderers:
+  orderer:
+    url: grpcs://orderer.belink.com:7050
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: orderer.belink.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICMDCCAdegAwIBAgIQI1ElEJcS+7XIWMirfaokRjAKBggqhkjOPQQDAjBqMQsw
+        CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+        YW5jaXNjbzETMBEGA1UEChMKYmVsaW5rLmNvbTEZMBcGA1UEAxMQdGxzY2EuYmVs
+        aW5rLmNvbTAeFw0xODAzMjgwNzA1MTBaFw0yODAzMjUwNzA1MTBaMGoxCzAJBgNV
+        BAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNp
+        c2NvMRMwEQYDVQQKEwpiZWxpbmsuY29tMRkwFwYDVQQDExB0bHNjYS5iZWxpbmsu
+        Y29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERD/JpFwKlhbuoReNbxRaMBAD
+        /QGjHEaCq6ivv+rwEfppzTWTdC+GnmOTsVVvi5ocsOpPIukVc+SUsZ9ZTPrnL6Nf
+        MF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUw
+        AwEB/zApBgNVHQ4EIgQg56Mpej6bFMYgqIlgkfCP0EbmoqdrVwR2OYXVax1ozwAw
+        CgYIKoZIzj0EAwIDRwAwRAIgDgWNu8Zhb/2PbwcDEfCLvKnU6OZs2oIufE6iK5Pw
+        9t0CIGLqpAHD2UquMI0l4qH0vhlHjihQrTRpEdkYr3Yo/hAj
+        -----END CERTIFICATE-----
+
+  orderer1:
+    url: grpcs://orderer1.belink.com:7050
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: orderer1.belink.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICMDCCAdegAwIBAgIQI1ElEJcS+7XIWMirfaokRjAKBggqhkjOPQQDAjBqMQsw
+        CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
+        YW5jaXNjbzETMBEGA1UEChMKYmVsaW5rLmNvbTEZMBcGA1UEAxMQdGxzY2EuYmVs
+        aW5rLmNvbTAeFw0xODAzMjgwNzA1MTBaFw0yODAzMjUwNzA1MTBaMGoxCzAJBgNV
+        BAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNp
+        c2NvMRMwEQYDVQQKEwpiZWxpbmsuY29tMRkwFwYDVQQDExB0bHNjYS5iZWxpbmsu
+        Y29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERD/JpFwKlhbuoReNbxRaMBAD
+        /QGjHEaCq6ivv+rwEfppzTWTdC+GnmOTsVVvi5ocsOpPIukVc+SUsZ9ZTPrnL6Nf
+        MF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYGBFUdJQAwDwYDVR0TAQH/BAUw
+        AwEB/zApBgNVHQ4EIgQg56Mpej6bFMYgqIlgkfCP0EbmoqdrVwR2OYXVax1ozwAw
+        CgYIKoZIzj0EAwIDRwAwRAIgDgWNu8Zhb/2PbwcDEfCLvKnU6OZs2oIufE6iK5Pw
+        9t0CIGLqpAHD2UquMI0l4qH0vhlHjihQrTRpEdkYr3Yo/hAj
+        -----END CERTIFICATE-----
+
+#配置peer详细信息和tlsca
+peers:
+  peer0:
+    url: grpcs://peer0.blockchain.belink.com:7051
+    eventUrl: grpcs://peer0.blockchain.belink.com:7053
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: peer0.blockchain.belink.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICXjCCAgWgAwIBAgIQc4eEwQKkhUzVSAXboqpCuDAKBggqhkjOPQQDAjCBgDEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xHjAcBgNVBAoTFWJsb2NrY2hhaW4uYmVsaW5rLmNvbTEkMCIGA1UE
+        AxMbdGxzY2EuYmxvY2tjaGFpbi5iZWxpbmsuY29tMB4XDTE4MDMyODA3MDUxMFoX
+        DTI4MDMyNTA3MDUxMFowgYAxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9y
+        bmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMR4wHAYDVQQKExVibG9ja2NoYWlu
+        LmJlbGluay5jb20xJDAiBgNVBAMTG3Rsc2NhLmJsb2NrY2hhaW4uYmVsaW5rLmNv
+        bTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABD0WInFWn08pZrecq28fQm4GXKXx
+        US/U2E/wuM0/jxP6g4fA3FO6HxWsd0IAmawDuV9xDR0e0S6hdF9gQ7nikdejXzBd
+        MA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMB
+        Af8wKQYDVR0OBCIEIIsP3GQkfW6t1IGj7vykaWeF9b1MpnquiwuMmTC8S0lwMAoG
+        CCqGSM49BAMCA0cAMEQCIA154mEp+Wn5K7v1LJ/RahMs5GIXuUsxNgv56RXOq7Df
+        AiACuODiYa18pjnRt/y7kvij9oTlgPun6SFA6S3KZ5dq6Q==
+        -----END CERTIFICATE-----
+
+  peer1:
+    url: grpcs://peer1.blockchain.belink.com:7051
+    eventUrl: grpcs://peer1.blockchain.belink.com:7053
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: peer1.blockchain.belink.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICXjCCAgWgAwIBAgIQc4eEwQKkhUzVSAXboqpCuDAKBggqhkjOPQQDAjCBgDEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xHjAcBgNVBAoTFWJsb2NrY2hhaW4uYmVsaW5rLmNvbTEkMCIGA1UE
+        AxMbdGxzY2EuYmxvY2tjaGFpbi5iZWxpbmsuY29tMB4XDTE4MDMyODA3MDUxMFoX
+        DTI4MDMyNTA3MDUxMFowgYAxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9y
+        bmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMR4wHAYDVQQKExVibG9ja2NoYWlu
+        LmJlbGluay5jb20xJDAiBgNVBAMTG3Rsc2NhLmJsb2NrY2hhaW4uYmVsaW5rLmNv
+        bTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABD0WInFWn08pZrecq28fQm4GXKXx
+        US/U2E/wuM0/jxP6g4fA3FO6HxWsd0IAmawDuV9xDR0e0S6hdF9gQ7nikdejXzBd
+        MA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMB
+        Af8wKQYDVR0OBCIEIIsP3GQkfW6t1IGj7vykaWeF9b1MpnquiwuMmTC8S0lwMAoG
+        CCqGSM49BAMCA0cAMEQCIA154mEp+Wn5K7v1LJ/RahMs5GIXuUsxNgv56RXOq7Df
+        AiACuODiYa18pjnRt/y7kvij9oTlgPun6SFA6S3KZ5dq6Q==
+        -----END CERTIFICATE-----
+
+  peer2:
+    url: grpcs://peer0.blockchain.xinwang.com:7051
+    eventUrl: grpcs://peer0.blockchain.xinwang.com:7053
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: peer0.blockchain.xinwang.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICYzCCAgmgAwIBAgIQeWLLqL4VxGsOhfeMalKqXDAKBggqhkjOPQQDAjCBgjEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xHzAdBgNVBAoTFmJsb2NrY2hhaW4ueGlud2FuZy5jb20xJTAjBgNV
+        BAMTHHRsc2NhLmJsb2NrY2hhaW4ueGlud2FuZy5jb20wHhcNMTgwMzI4MDcwNTEw
+        WhcNMjgwMzI1MDcwNTEwWjCBgjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlm
+        b3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xHzAdBgNVBAoTFmJsb2NrY2hh
+        aW4ueGlud2FuZy5jb20xJTAjBgNVBAMTHHRsc2NhLmJsb2NrY2hhaW4ueGlud2Fu
+        Zy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASVsF+x76Av9Oo82c5YuvvN
+        gW7Cuu4EoF3sklBBC279JQYDe7Fodl9a0X0lA0EX0hPyCa4sO84u2DPmGve3POAl
+        o18wXTAOBgNVHQ8BAf8EBAMCAaYwDwYDVR0lBAgwBgYEVR0lADAPBgNVHRMBAf8E
+        BTADAQH/MCkGA1UdDgQiBCCSen07F7WGWxwPRlKSfjxbd+o95TZFtYejr52qo2dm
+        1TAKBggqhkjOPQQDAgNIADBFAiEAj3DUTfaJzmJiNFzknxbvH0mqZUFZrbMQgixR
+        7q7RDPQCIFi9XqRzAgWZbBKFV9ePIeFS66SKoHcxdn0orCggAERl
+        -----END CERTIFICATE-----
+
+  peer3:
+    url: grpcs://peer1.blockchain.xinwang.com:7051
+    eventUrl: grpcs://peer1.blockchain.xinwang.com:7053
+    grpcOptions:
+      grpc.http2.keepalive_time: 15
+      negotiationType: TLS
+      sslProvider: openSSL
+      hostnameOverride: peer1.blockchain.xinwang.com
+
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICYzCCAgmgAwIBAgIQeWLLqL4VxGsOhfeMalKqXDAKBggqhkjOPQQDAjCBgjEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xHzAdBgNVBAoTFmJsb2NrY2hhaW4ueGlud2FuZy5jb20xJTAjBgNV
+        BAMTHHRsc2NhLmJsb2NrY2hhaW4ueGlud2FuZy5jb20wHhcNMTgwMzI4MDcwNTEw
+        WhcNMjgwMzI1MDcwNTEwWjCBgjELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlm
+        b3JuaWExFjAUBgNVBAcTDVNhbiBGcmFuY2lzY28xHzAdBgNVBAoTFmJsb2NrY2hh
+        aW4ueGlud2FuZy5jb20xJTAjBgNVBAMTHHRsc2NhLmJsb2NrY2hhaW4ueGlud2Fu
+        Zy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASVsF+x76Av9Oo82c5YuvvN
+        gW7Cuu4EoF3sklBBC279JQYDe7Fodl9a0X0lA0EX0hPyCa4sO84u2DPmGve3POAl
+        o18wXTAOBgNVHQ8BAf8EBAMCAaYwDwYDVR0lBAgwBgYEVR0lADAPBgNVHRMBAf8E
+        BTADAQH/MCkGA1UdDgQiBCCSen07F7WGWxwPRlKSfjxbd+o95TZFtYejr52qo2dm
+        1TAKBggqhkjOPQQDAgNIADBFAiEAj3DUTfaJzmJiNFzknxbvH0mqZUFZrbMQgixR
+        7q7RDPQCIFi9XqRzAgWZbBKFV9ePIeFS66SKoHcxdn0orCggAERl
+        -----END CERTIFICATE-----
+
+#  peer4:
+#    url: grpcs://peer0.blockchain.keshang.com:11051
+#    eventUrl: grpcs://peer0.blockchain.keshang.com:11053
+#    grpcOptions:
+#      grpc.http2.keepalive_time: 15
+#      negotiationType: TLS
+#      sslProvider: openSSL
+#      hostnameOverride: peer0.blockchain.keshang.com
+
+#    tlsCACerts:
+#      pem: |
+#        -----BEGIN CERTIFICATE-----
+#        MIICYzCCAgqgAwIBAgIRAIHge7Pcn2YpENSeIZcTvg0wCgYIKoZIzj0EAwIwgYIx
+#        CzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4g
+#        RnJhbmNpc2NvMR8wHQYDVQQKExZibG9ja2NoYWluLmtlc2hhbmcuY29tMSUwIwYD
+#        VQQDExx0bHNjYS5ibG9ja2NoYWluLmtlc2hhbmcuY29tMB4XDTE4MDIyNjA1MDQ0
+#        OVoXDTI4MDIyNDA1MDQ0OVowgYIxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxp
+#        Zm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMR8wHQYDVQQKExZibG9ja2No
+#        YWluLmtlc2hhbmcuY29tMSUwIwYDVQQDExx0bHNjYS5ibG9ja2NoYWluLmtlc2hh
+#        bmcuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5HjA9jLF2doTmtGNTHbz
+#        tX04iFH8FEQW1ukKgSpV+vLAV2QSX86QYX+MlcvF5x1N/ZjzWAVCG2OBizGehQQg
+#        FaNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYGBFUdJQAwDwYDVR0TAQH/
+#        BAUwAwEB/zApBgNVHQ4EIgQgjBF8vASNRkytXTkcyuLaYv/Cz7veNpJ6wuW84cip
+#        RXswCgYIKoZIzj0EAwIDRwAwRAIgXjDZa0pwhqjA/741AKwBLtnhNzSYnEsH4ODP
+#        CyKTdSoCIHCWUJM2YiRpYWwzbhsrEYnTMx242KrHarQrnkhklWDg
+#        -----END CERTIFICATE-----
+#  peer5:
+#    url: grpcs://peer1.blockchain.keshang.com:12051
+#    eventUrl: grpcs://peer1.blockchain.keshang.com:12053
+#    grpcOptions:
+#      grpc.http2.keepalive_time: 15
+#      negotiationType: TLS
+#      sslProvider: openSSL
+#      hostnameOverride: peer1.blockchain.keshang.com
+
+#    tlsCACerts:
+#      pem: |
+#        -----BEGIN CERTIFICATE-----
+#        MIICYzCCAgqgAwIBAgIRAIHge7Pcn2YpENSeIZcTvg0wCgYIKoZIzj0EAwIwgYIx
+#        CzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1TYW4g
+#        RnJhbmNpc2NvMR8wHQYDVQQKExZibG9ja2NoYWluLmtlc2hhbmcuY29tMSUwIwYD
+#        VQQDExx0bHNjYS5ibG9ja2NoYWluLmtlc2hhbmcuY29tMB4XDTE4MDIyNjA1MDQ0
+#        OVoXDTI4MDIyNDA1MDQ0OVowgYIxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxp
+#        Zm9ybmlhMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMR8wHQYDVQQKExZibG9ja2No
+#        YWluLmtlc2hhbmcuY29tMSUwIwYDVQQDExx0bHNjYS5ibG9ja2NoYWluLmtlc2hh
+#        bmcuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE5HjA9jLF2doTmtGNTHbz
+#        tX04iFH8FEQW1ukKgSpV+vLAV2QSX86QYX+MlcvF5x1N/ZjzWAVCG2OBizGehQQg
+#        FaNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYGBFUdJQAwDwYDVR0TAQH/
+#        BAUwAwEB/zApBgNVHQ4EIgQgjBF8vASNRkytXTkcyuLaYv/Cz7veNpJ6wuW84cip
+#        RXswCgYIKoZIzj0EAwIDRwAwRAIgXjDZa0pwhqjA/741AKwBLtnhNzSYnEsH4ODP
+#        CyKTdSoCIHCWUJM2YiRpYWwzbhsrEYnTMx242KrHarQrnkhklWDg
+#        -----END CERTIFICATE-----
+
+#certificateAuthorities:
+#  ca:
+#    url: http://localhost:7054
+#    caName: ca
